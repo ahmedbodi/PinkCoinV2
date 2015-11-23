@@ -10,7 +10,7 @@
 #include "net.h"
 #include "script.h"
 #include "scrypt.h"
-
+#include "base58.h"
 #include <list>
 
 class CWallet;
@@ -23,6 +23,15 @@ class COutPoint;
 class CAddress;
 class CInv;
 class CNode;
+
+#define FOUNDATION_ADDRESS "CZJMdYSTjhaUcrwL3vaqbJB47GEda498r2"
+
+inline CScript GetFoundationScript() {
+	CBitcoinAddress address(FOUNDATION_ADDRESS);
+        CScript script;
+        script.SetDestination(address.Get());
+        return script;
+}
 
 static const unsigned int MAX_BLOCK_SIZE = 1000000;
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
@@ -39,7 +48,7 @@ inline bool MoneyRange(int64_t nValue) { return (nValue >= 0 && nValue <= MAX_MO
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
 
 
-static const uint256 hashGenesisBlock("0x00000b98b117248cc54f5d44dc4c43a1b38dfc77b663610c6345464e338a4d7e");
+static const uint256 hashGenesisBlock("0x000004b7f1340a5aa74e7addd590b7cb914e621a4bd2c410804fead6a40220d9");
 static const uint256 hashGenesisBlockTestNet("0x00000b98b117248cc54f5d44dc4c43a1b38dfc77b663610c6345464e338a4d7e");
 
 
@@ -56,6 +65,7 @@ extern unsigned int nStakeMinAge;
 extern unsigned int nStakeMinAgeAdjusted;
 extern unsigned int nStakeMaxAge;
 extern unsigned int nNodeLifespan;
+extern unsigned int nDonationAmt;
 extern int nCoinbaseMaturity;
 extern int nBestHeight;
 extern uint256 nBestChainTrust;
