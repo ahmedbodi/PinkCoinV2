@@ -40,9 +40,9 @@ CBigNum bnProofOfStakeLimit(~uint256(0) >> 12);
 CBigNum bnProofOfWorkLimitTestNet(~uint256(0) >> 16);
 
 unsigned int nTargetSpacing     = 60;               // 60 seconds
-unsigned int nStakeMinAge       = 1 * 60 * 60;      // 1 hour
-unsigned int nStakeMinAgeAdjusted = 4 * 60 * 60;    // 4 Hours after block 10000
-unsigned int nStakeMaxAge       = 24 * 60 * 60 * 30; // 30 days
+unsigned int nStakeMinAge       = 60 * 60 * 24 * 30;      // 1 hour
+unsigned int nStakeMinAgeAdjusted = 60 * 60 * 24 * 30;    // 4 Hours after block 10000
+unsigned int nStakeMaxAge       = 60 * 60 * 24 * 90 ; // 30 days
 unsigned int nModifierInterval  = 5 * 60;          // time to elapse before new modifier is computed
 
 int nCoinbaseMaturity = 20;
@@ -972,12 +972,9 @@ int64_t GetProofOfWorkReward(int nHeight, int64_t nFees)
     
     if (nHeight == 1)
         nSubsidy = 1000 * COIN; // 1000 Coin Premine.
+        return nSubsidy + nFees;
 
-    if (nHeight > 1)
-        nSubsidy = COIN / (1 + (nHeight / YEARLY_BLOCKCOUNT));
-
-    if (nHeight > 10000)
-        nSubsidy = 5 * COIN / (1 + (nHeight / YEARLY_BLOCKCOUNT));
+    nSubsidy = 5 * COIN;
 
     if (fDebug && GetBoolArg("-printcreation"))
         printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
@@ -988,9 +985,7 @@ int64_t GetProofOfWorkReward(int nHeight, int64_t nFees)
 // miner's coin stake reward based on coin age spent (coin-days)
 int64_t GetProofOfStakeReward(int64_t nCoinAge, int64_t nFees, int nHeight)
 {
-    int64_t nSubsidy = 0;
-
-    nSubsidy = 20 * COIN / (1 + (nHeight / YEARLY_BLOCKCOUNT));
+    int64_t nSubsidy = 20 * COIN;
 
     if (fDebug && GetBoolArg("-printcreation"))
         printf("GetProofOfStakeReward(): create=%s nCoinAge=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nCoinAge);
