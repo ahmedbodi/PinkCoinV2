@@ -408,7 +408,7 @@ bool AppInit2(boost::thread_group& threadGroup)
     threadGroup.create_thread(boost::bind(&DetectShutdownThread, &threadGroup));
 
     // ********************************************************* Step 2: parameter interactions
-
+    nDonationAmount = GetArg("-donationamt", 1);
     nNodeLifespan = GetArg("-addrlifespan", 7);
     fUseFastIndex = GetBoolArg("-fastindex", true);
     nMinerSleep = GetArg("-minersleep", 500);
