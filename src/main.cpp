@@ -2448,10 +2448,16 @@ bool LoadBlockIndex(bool fAllowNew)
             return false;
 
         // Genesis block
+	// CBlock(hash=000004b7f1340a5aa74e7addd590b7cb914e621a4bd2c410804fead6a40220d9, ver=1, hashPrevBlock=0000000000000000000000000000000000000000000000000000000000000000, hashMerkleRoot=09fe4d143ed68d7ddbe0ee7011c9c0a7b0f0dd024c34a8d948fb66194b550d1c, nTime=1448316523, nBits=1e0fffff, nNonce=1870108, vtx=1, vchBlockSig=)
+  	// Coinbase(hash=09fe4d143e, nTime=1448316522, ver=1, vin.size=1, vout.size=1, nLockTime=0)
+    	//	CTxIn(COutPoint(0000000000, 4294967295), coinbase 00012a1050696e6b636f696e2069732062657374)
+    	// CTxOut(empty)
+  	// vMerkleTree: 09fe4d143e
 
-        const char* pszTimestamp = "Bernie Sanders for President.";
+
+        const char* pszTimestamp = "Pinkcoin is best";
         CTransaction txNew;
-        txNew.nTime = 1433270743;
+        txNew.nTime = 1448316522 ;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 0 << CBigNum(42) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
@@ -2462,13 +2468,12 @@ bool LoadBlockIndex(bool fAllowNew)
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1433270743;
+        block.nTime    = 1448316523;
         block.nBits    = bnProofOfWorkLimit.GetCompact();
-        block.nNonce   = 174553;
+        block.nNonce   = 1870108;
 
         //// debug print
-        assert(block.hashMerkleRoot == uint256("0990a9b1eeda46cbc58e152b3e539cddd65391fb61dc7e83ed6c108c9f5527bb"));
-        block.print();
+        assert(block.hashMerkleRoot == uint256("0x09fe4d143ed68d7ddbe0ee7011c9c0a7b0f0dd024c34a8d948fb66194b550d1c"));
         assert(block.GetHash() == (!fTestNet ? hashGenesisBlock : hashGenesisBlockTestNet));
         assert(block.CheckBlock());
 
